@@ -1,7 +1,7 @@
 import Animation from '../base/animation'
 import DataBus from '../databus'
 
-const ENEMY_IMG_SRC = 'images/enemy.png'
+const ENEMY_IMG_SRC = 'images3/enemy.png'
 const ENEMY_WIDTH = 60
 const ENEMY_HEIGHT = 60
 
@@ -35,7 +35,7 @@ export default class Enemy extends Animation {
   initExplosionAnimation() {
     const frames = []
 
-    const EXPLO_IMG_PREFIX = 'images/explosion'
+    const EXPLO_IMG_PREFIX = 'images3/explosion'
     const EXPLO_FRAME_COUNT = 19
 
     for (let i = 0; i < EXPLO_FRAME_COUNT; i++) {
