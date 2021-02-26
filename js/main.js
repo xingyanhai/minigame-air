@@ -1,5 +1,6 @@
 import Player from './player/index'
 import Enemy from './npc/enemy'
+import Supply from './npc/supply'
 import BackGround from './runtime/background'
 import GameInfo from './runtime/gameinfo'
 import Music from './runtime/music'
@@ -56,32 +57,60 @@ export default class Main {
     }
   }
 
+  /**
+   * 随着帧数变化的补给生成逻辑
+   * 帧数取模定义成生成的频率
+   */
+  supplyGenerate() {
+    if (databus.frame % 500 === 0) {
+      const supply = databus.pool.getItemByClass('supply', Supply)
+      supply.init(2)
+      databus.supplys.push(supply)
+    }
+  }
+
   // 全局碰撞检测
   collisionDetection() {
     const that = this
-
+    // 我方子弹是否碰到敌机
     databus.bullets.forEach((bullet) => {
       for (let i = 0, il = databus.enemys.length; i < il; i++) {
         const enemy = databus.enemys[i]
 
         if (!enemy.isPlaying && enemy.isCollideWith(bullet)) {
-          enemy.playAnimation()
+          enemy.playExplosionAnimation()
+          enemy.currentBlood --
+          if (enemy.currentBlood === 0) {
+            enemy.visibility = false
+            // 分数增加量为总血量
+            databus.score += enemy.totalBlood
+          }
           that.music.playExplosion()
 
           bullet.visible = false
-          databus.score += 1
+
 
           break
         }
       }
     })
-
+    // 我方飞机是否碰到敌机
     for (let i = 0, il = databus.enemys.length; i < il; i++) {
       const enemy = databus.enemys[i]
 
       if (this.player.isCollideWith(enemy)) {
         databus.gameOver = true
 
+        break
+      }
+    }
+    // 判断是否碰撞到补给，则加一颗子弹
+    for (let i = 0, il = databus.supplys.length; i < il; i++) {
+      const supply = databus.supplys[i]
+
+      if (this.player.isCollideWith(supply)) {
+        this.player.bulletCount ++
+        supply.visibility = false
         break
       }
     }
@@ -147,12 +176,15 @@ export default class Main {
 
     databus.bullets
       .concat(databus.enemys)
+      .concat(databus.supplys)
       .forEach((item) => {
         item.update()
       })
-
+    // 生成敌人
     this.enemyGenerate()
-
+    // 生成补给
+    this.supplyGenerate()
+    // 全局碰撞检测
     this.collisionDetection()
 
     if (databus.frame % 20 === 0) {
