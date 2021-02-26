@@ -72,23 +72,29 @@ export default class Main {
   // 全局碰撞检测
   collisionDetection() {
     const that = this
-
+    // 我方子弹是否碰到敌机
     databus.bullets.forEach((bullet) => {
       for (let i = 0, il = databus.enemys.length; i < il; i++) {
         const enemy = databus.enemys[i]
 
         if (!enemy.isPlaying && enemy.isCollideWith(bullet)) {
-          enemy.playAnimation()
+          enemy.playExplosionAnimation()
+          enemy.currentBlood --
+          if (enemy.currentBlood === 0) {
+            enemy.visibility = false
+            // 分数增加量为总血量
+            databus.score += enemy.totalBlood
+          }
           that.music.playExplosion()
 
           bullet.visible = false
-          databus.score += 1
+
 
           break
         }
       }
     })
-
+    // 我方飞机是否碰到敌机
     for (let i = 0, il = databus.enemys.length; i < il; i++) {
       const enemy = databus.enemys[i]
 
