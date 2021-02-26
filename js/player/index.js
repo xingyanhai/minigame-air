@@ -24,6 +24,8 @@ export default class Player extends Sprite {
     this.touched = false
 
     this.bullets = []
+    // 子弹数量
+    this.bulletCount = 3
 
     // 初始化事件监听
     this.initEvent()
@@ -106,14 +108,23 @@ export default class Player extends Sprite {
    * 射击时机由外部决定
    */
   shoot() {
-    const bullet = databus.pool.getItemByClass('bullet', Bullet)
 
-    bullet.init(
-      this.x + this.width / 2 - bullet.width / 2,
-      this.y - 10,
-      10
-    )
+    for(let i = 0; i < this.bulletCount; i++) {
+      const bullet = databus.pool.getItemByClass('bullet', Bullet);
+      // 我方飞机中点
+      const middle = this.x + this.width / 2
+      // 子弹间隔
+      let bulletSpace = 30
+      // 所有子弹总宽度
+      const allBulletWidth = bullet.width * this.bulletCount + bulletSpace * (this.bulletCount - 1)
+      const x = middle - allBulletWidth / 2 + i * (bullet.width + bulletSpace)
+      bullet.init(
+          x,
+          this.y - 10,
+          10
+      )
 
-    databus.bullets.push(bullet)
+      databus.bullets.push(bullet)
+    }
   }
 }
