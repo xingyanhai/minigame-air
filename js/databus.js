@@ -21,6 +21,7 @@ export default class DataBus {
     this.score = 0
     this.bullets = []
     this.enemys = []
+    this.supplys = []
     this.animations = []
     this.gameOver = false
   }
@@ -47,5 +48,16 @@ export default class DataBus {
     temp.visible = false
 
     this.pool.recover('bullet', bullet)
+  }
+  /**
+   * 回收补给，进入对象池
+   * 此后不进入帧循环
+   */
+  removeSupply(bullet) {
+    const temp = this.supplys.shift()
+
+    temp.visible = false
+
+    this.pool.recover('supply', bullet)
   }
 }
