@@ -1,25 +1,25 @@
 import Animation from '../base/animation'
 import DataBus from '../databus'
-
+import Util from "./util";
 // 敌机类型
 const ENEMY_SIZE = {
   1: {
-    width: 60,
-    height: 60,
-    src: 'images/enemy.png',
+    width: 30,
+    height: 20,
+    src: `${Util.imgSrc}/enemy.png`,
     bloodValue: 1
   },
   2: {
-    width: 75,
-    height: 75,
-    src: 'images/enemy.png',
-    bloodValue: 3
+    width: 60,
+    height: 40,
+    src: `${Util.imgSrc}/enemy.png`,
+    bloodValue: 5
   },
   3: {
-    width: 120,
-    height: 120,
-    src: 'images/enemy.png',
-    bloodValue: 5
+    width: 90,
+    height: 60,
+    src: `${Util.imgSrc}/enemy.png`,
+    bloodValue: 10
   }
 }
 
@@ -34,7 +34,7 @@ function rnd(start, end) {
 }
 
 export default class Enemy extends Animation {
-  constructor(size) {
+  constructor(size = 3) {
     super(ENEMY_SIZE[size].src, ENEMY_SIZE[size].width, ENEMY_SIZE[size].height)
     this.size = size
     this.initExplosionAnimation()
@@ -57,7 +57,7 @@ export default class Enemy extends Animation {
   initExplosionAnimation() {
     const frames = []
 
-    const EXPLO_IMG_PREFIX = 'images/explosion'
+    const EXPLO_IMG_PREFIX = `${Util.imgSrc}/explosion`
     const EXPLO_FRAME_COUNT = 19
 
     for (let i = 0; i < EXPLO_FRAME_COUNT; i++) {
@@ -67,20 +67,6 @@ export default class Enemy extends Animation {
     this.initFrames(frames)
   }
 
-  // 播放爆炸动画
-  playExplosionAnimation(index = 0, loop = false) {
-    this.stop()
-    this.isPlaying = true
-    this.loop = loop
-    this.index = index
-
-    if (this.interval > 0 && this.count) {
-      this[__.timer] = setInterval(
-          this.frameLoop.bind(this),
-          this.interval
-      )
-    }
-  }
 
   // 每一帧更新子弹位置
   update() {

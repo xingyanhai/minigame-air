@@ -1,14 +1,15 @@
 import Sprite from '../base/sprite'
 import Bullet from './bullet'
 import DataBus from '../databus'
+import Util from "../npc/util";
 
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
 // 玩家相关常量设置
-const PLAYER_IMG_SRC = 'images3/hero.png'
-const PLAYER_WIDTH = 80
-const PLAYER_HEIGHT = 80
+const PLAYER_IMG_SRC = `${Util.imgSrc}/hero.png`
+const PLAYER_WIDTH = 50
+const PLAYER_HEIGHT = 30
 
 const databus = new DataBus()
 
@@ -25,7 +26,7 @@ export default class Player extends Sprite {
 
     this.bullets = []
     // 子弹数量
-    this.bulletCount = 3
+    this.bulletCount = 1
 
     // 初始化事件监听
     this.initEvent()
@@ -114,7 +115,7 @@ export default class Player extends Sprite {
       // 我方飞机中点
       const middle = this.x + this.width / 2
       // 子弹间隔
-      let bulletSpace = 30
+      let bulletSpace = 1
       // 所有子弹总宽度
       const allBulletWidth = bullet.width * this.bulletCount + bulletSpace * (this.bulletCount - 1)
       const x = middle - allBulletWidth / 2 + i * (bullet.width + bulletSpace)

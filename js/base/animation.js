@@ -3,9 +3,6 @@ import DataBus from '../databus'
 
 const databus = new DataBus()
 
-const __ = {
-  timer: Symbol('timer'),
-}
 
 /**
  * 简易的帧动画类实现
@@ -24,7 +21,7 @@ export default class Animation extends Sprite {
     this.interval = 1000 / 60
 
     // 帧定时器
-    this[__.timer] = null
+    this.timer = null
 
     // 当前播放的帧
     this.index = -1
@@ -71,7 +68,7 @@ export default class Animation extends Sprite {
   // 播放预定的帧动画
   playAnimation(index = 0, loop = false) {
     // 动画播放的时候精灵图不再展示，播放帧动画的具体帧
-    this.visible = false
+    // this.visible = false
 
     this.isPlaying = true
     this.loop = loop
@@ -79,7 +76,7 @@ export default class Animation extends Sprite {
     this.index = index
 
     if (this.interval > 0 && this.count) {
-      this[__.timer] = setInterval(
+      this.timer = setInterval(
         this.frameLoop.bind(this),
         this.interval
       )
@@ -90,7 +87,7 @@ export default class Animation extends Sprite {
   stop() {
     this.isPlaying = false
 
-    if (this[__.timer]) clearInterval(this[__.timer])
+    if (this.timer) clearInterval(this.timer)
   }
 
   // 帧遍历

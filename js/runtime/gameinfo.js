@@ -1,8 +1,10 @@
+import Util from "../npc/util";
+
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
 const atlas = new Image()
-atlas.src = 'images3/Common.png'
+atlas.src = `${Util.imgSrc}/Common.png`
 
 export default class GameInfo {
   renderGameScore(ctx, score) {

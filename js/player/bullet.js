@@ -1,9 +1,9 @@
 import Sprite from '../base/sprite'
 import DataBus from '../databus'
-
-const BULLET_IMG_SRC = 'images3/bullet.png'
-const BULLET_WIDTH = 16
-const BULLET_HEIGHT = 30
+import Util from "../npc/util";
+const BULLET_IMG_SRC = `${Util.imgSrc}/bullet.png`
+const BULLET_WIDTH = 10
+const BULLET_HEIGHT = 15
 
 const __ = {
   speed: Symbol('speed')

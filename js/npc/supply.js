@@ -1,9 +1,9 @@
 import Animation from '../base/animation'
 import DataBus from '../databus'
 import Util from './util'
-const SUPPLY_IMG_SRC = 'images/hero.png'
-const SUPPLY_WIDTH = 60
-const SUPPLY_HEIGHT = 60
+const SUPPLY_IMG_SRC = `${Util.imgSrc}/supply.png`
+const SUPPLY_WIDTH = 20
+const SUPPLY_HEIGHT = 25
 
 const __ = {
   speed: Symbol('speed-supply')
@@ -31,7 +31,7 @@ export default class Supply extends Animation {
   initSupplyAnimation() {
     const frames = []
 
-    const EXPLO_IMG_PREFIX = 'images/explosion'
+    const EXPLO_IMG_PREFIX = `${Util.imgSrc}/explosion`
     const EXPLO_FRAME_COUNT = 19
 
     for (let i = 0; i < EXPLO_FRAME_COUNT; i++) {
@@ -40,26 +40,26 @@ export default class Supply extends Animation {
 
     this.initFrames(frames)
     // 补给自带动画,自动播放
-    this.playAnimation()
+    // this.playAnimation(0, true)
   }
 
 
   // 播放预定的帧动画
-  playAnimation(index = 0, loop = true) {
-    // 动画播放的时候精灵图不再展示，播放帧动画的具体帧
-
-    this.isPlaying = true
-    this.loop = loop
-
-    this.index = index
-
-    if (this.interval > 0 && this.count) {
-      this[__.timer] = setInterval(
-          this.frameLoop.bind(this),
-          this.interval
-      )
-    }
-  }
+  // playAnimation(index = 0, loop = true) {
+  //   // 动画播放的时候精灵图不再展示，播放帧动画的具体帧
+  //
+  //   this.isPlaying = true
+  //   this.loop = loop
+  //
+  //   this.index = index
+  //
+  //   if (this.interval > 0 && this.count) {
+  //     this.timer = setInterval(
+  //         this.frameLoop.bind(this),
+  //         this.interval
+  //     )
+  //   }
+  // }
 
   // 每一帧更新子弹位置
   update() {

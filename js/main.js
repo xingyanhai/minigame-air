@@ -5,6 +5,7 @@ import BackGround from './runtime/background'
 import GameInfo from './runtime/gameinfo'
 import Music from './runtime/music'
 import DataBus from './databus'
+import Util from "./npc/util";
 
 const ctx = canvas.getContext('2d')
 const databus = new DataBus()
@@ -50,9 +51,9 @@ export default class Main {
    * 帧数取模定义成生成的频率
    */
   enemyGenerate() {
-    if (databus.frame % 30 === 0) {
-      const enemy = databus.pool.getItemByClass('enemy', Enemy)
-      enemy.init(6)
+    if (databus.frame % 60 === 0) {
+      const enemy = databus.pool.getItemByClass('enemy', Enemy, Util.rnd(1, 4))
+      enemy.init(3)
       databus.enemys.push(enemy)
     }
   }
@@ -77,11 +78,12 @@ export default class Main {
       for (let i = 0, il = databus.enemys.length; i < il; i++) {
         const enemy = databus.enemys[i]
 
-        if (!enemy.isPlaying && enemy.isCollideWith(bullet)) {
-          enemy.playExplosionAnimation()
+        if (enemy.isCollideWith(bullet)) {
+          // 播放爆炸动画
+          enemy.playAnimation()
           enemy.currentBlood --
-          if (enemy.currentBlood === 0) {
-            enemy.visibility = false
+          if (enemy.currentBlood <= 0) {
+            enemy.visible = false
             // 分数增加量为总血量
             databus.score += enemy.totalBlood
           }
@@ -110,7 +112,7 @@ export default class Main {
 
       if (this.player.isCollideWith(supply)) {
         this.player.bulletCount ++
-        supply.visibility = false
+        supply.visible = false
         break
       }
     }
@@ -142,6 +144,7 @@ export default class Main {
 
     databus.bullets
       .concat(databus.enemys)
+      .concat(databus.supplys)
       .forEach((item) => {
         item.drawToCanvas(ctx)
       })

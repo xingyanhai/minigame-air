@@ -1,9 +1,9 @@
 import Sprite from '../base/sprite'
-
+import util from "../npc/util";
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
-const BG_IMG_SRC = 'images3/bg.jpg'
+const BG_IMG_SRC = `${util.imgSrc}/bg.jpg`
 const BG_WIDTH = 512
 const BG_HEIGHT = 512
 
