@@ -27,6 +27,8 @@ export default class Player extends Sprite {
     this.bullets = []
     // 子弹数量
     this.bulletCount = 1
+    // 子弹间隔
+    this.bulletSpace = 2
 
     // 初始化事件监听
     this.initEvent()
@@ -103,20 +105,25 @@ export default class Player extends Sprite {
       this.touched = false
     }))
   }
-
+  get maxBulletCount () {
+    const bullet = databus.pool.getItemByClass('bullet', Bullet);
+    return Math.ceil((screenWidth * 2 + this.bulletSpace) / (bullet.width + this.bulletSpace))
+  }
   /**
    * 玩家射击操作
    * 射击时机由外部决定
    */
   shoot() {
-    for(let i = 0; i < this.bulletCount; i++) {
+    let count = (this.bulletCount < this.maxBulletCount ? this.bulletCount: this.maxBulletCount)
+    for(let i = 0; i <count ; i++) {
       const bullet = databus.pool.getItemByClass('bullet', Bullet);
       // 我方飞机中点
       const middle = this.x + this.width / 2
       // 子弹间隔
-      let bulletSpace = 1
+      let bulletSpace = this.bulletSpace
       // 所有子弹总宽度
-      const allBulletWidth = bullet.width * this.bulletCount + bulletSpace * (this.bulletCount - 1)
+      const allBulletWidth = bullet.width * count + bulletSpace * (count - 1)
+
       const x = middle - allBulletWidth / 2 + i * (bullet.width + bulletSpace)
       bullet.init(
           x,
