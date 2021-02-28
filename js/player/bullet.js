@@ -28,8 +28,8 @@ export default class Bullet extends Sprite {
   // 每一帧更新子弹位置
   update() {
     this.y -= this[__.speed]
-
+    // 子弹不在回收，因为会导致子弹重复的bug
     // 超出屏幕外回收自身
-    if (this.y < -this.height) databus.removeBullets(this)
+    // if (this.y < -this.height * 10) databus.removeBullets(this)
   }
 }

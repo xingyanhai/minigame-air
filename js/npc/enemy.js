@@ -16,8 +16,8 @@ const ENEMY_SIZE = {
     bloodValue: 5
   },
   3: {
-    width: 90,
-    height: 60,
+    width: 120,
+    height: 80,
     src: `${Util.imgSrc}/enemy.png`,
     bloodValue: 10
   }

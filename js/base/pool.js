@@ -26,10 +26,11 @@ export default class Pool {
    * 对象池为空创建新的类，否则从对象池中取
    */
   getItemByClass(name, className, ...args) {
-    const pool = this.getPoolBySign(name)
 
-    const result = (pool.length
-      ? pool.shift()
+    const pools = this.getPoolBySign(name)
+
+    const result = (pools.length
+      ? pools.shift()
       : new className(...args))
 
     return result

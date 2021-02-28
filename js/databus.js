@@ -31,11 +31,11 @@ export default class DataBus {
    * 此后不进入帧循环
    */
   removeEnemey(enemy) {
-    const temp = this.enemys.shift()
+    enemy.visible = false
+    let index = this.enemys.findIndex(e => e === enemy)
+    this.enemys.splice(index,1)
 
-    temp.visible = false
-
-    this.pool.recover('enemy', enemy)
+    this.pool.recover(`enemy-${enemy.size}`, enemy)
   }
 
   /**

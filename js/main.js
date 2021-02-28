@@ -52,7 +52,8 @@ export default class Main {
    */
   enemyGenerate() {
     if (databus.frame % 60 === 0) {
-      const enemy = databus.pool.getItemByClass('enemy', Enemy, Util.rnd(1, 4))
+      let size = Util.rnd(1, 4)
+      const enemy = databus.pool.getItemByClass(`enemy-${size}` , Enemy, size)
       enemy.init(3)
       databus.enemys.push(enemy)
     }
@@ -63,7 +64,7 @@ export default class Main {
    * 帧数取模定义成生成的频率
    */
   supplyGenerate() {
-    if (databus.frame % 500 === 0) {
+    if (databus.frame % 50 === 0) {
       const supply = databus.pool.getItemByClass('supply', Supply)
       supply.init(2)
       databus.supplys.push(supply)
@@ -141,7 +142,6 @@ export default class Main {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     this.bg.render(ctx)
-
     databus.bullets
       .concat(databus.enemys)
       .concat(databus.supplys)

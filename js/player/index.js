@@ -109,7 +109,6 @@ export default class Player extends Sprite {
    * 射击时机由外部决定
    */
   shoot() {
-
     for(let i = 0; i < this.bulletCount; i++) {
       const bullet = databus.pool.getItemByClass('bullet', Bullet);
       // 我方飞机中点
@@ -124,7 +123,6 @@ export default class Player extends Sprite {
           this.y - 10,
           10
       )
-
       databus.bullets.push(bullet)
     }
   }
