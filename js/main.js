@@ -64,7 +64,7 @@ export default class Main {
    * 帧数取模定义成生成的频率
    */
   supplyGenerate() {
-    if (databus.frame % 50 === 0) {
+    if (databus.frame % 5000 === 0) {
       const supply = databus.pool.getItemByClass('supply', Supply)
       supply.init(2)
       databus.supplys.push(supply)
