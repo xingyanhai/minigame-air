@@ -52,7 +52,7 @@ export default class Rocket {
         this.vel.y += this.gravity;
 
         // update position based on speed
-        this.x += this.vel.x;
+        // this.x += this.vel.x;
         this.y += this.vel.y;
 
         // shrink 乘以收缩

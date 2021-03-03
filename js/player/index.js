@@ -26,7 +26,7 @@ export default class Player extends Sprite {
 
     this.bullets = []
     // 子弹数量
-    this.bulletCount = 1
+    this.bulletCount = 3
     // 子弹间隔
     this.bulletSpace = 2
 
