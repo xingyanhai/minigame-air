@@ -49,7 +49,7 @@ export default class DataBus {
     let index = this.rockets.findIndex(e => e === rocket)
     this.rockets.splice(index,1)
 
-    this.pool.recover('rocket', rocket)
+    // this.pool.recover('rocket', rocket)
   }
 
   /**
@@ -61,7 +61,7 @@ export default class DataBus {
     let index = this.particles.findIndex(e => e === particle)
     this.particles.splice(index,1)
 
-    this.pool.recover('particle', particle)
+    // this.pool.recover('particle', particle)
   }
 
   /**
@@ -73,7 +73,7 @@ export default class DataBus {
 
     temp.visible = false
 
-    this.pool.recover('bullet', bullet)
+    // this.pool.recover('bullet', bullet)
   }
   /**
    * 回收补给，进入对象池

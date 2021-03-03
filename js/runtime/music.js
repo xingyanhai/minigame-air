@@ -19,6 +19,12 @@ export default class Music {
     this.boomAudio = new Audio()
     this.boomAudio.src = 'audio/boom.mp3'
 
+    this.jiuAudio = new Audio()
+    this.jiuAudio.src = 'audio/jiu.mp3'
+
+    this.paAudio = new Audio()
+    this.paAudio.src = 'audio/pa.mp3'
+
     this.playBgm()
   }
 
@@ -34,5 +40,15 @@ export default class Music {
   playExplosion() {
     this.boomAudio.currentTime = 0
     this.boomAudio.play()
+  }
+
+  playJiu() {
+    this.jiuAudio.currentTime = 0
+    this.jiuAudio.play()
+  }
+
+  playPa() {
+    this.paAudio.currentTime = 0
+    this.paAudio.play()
   }
 }

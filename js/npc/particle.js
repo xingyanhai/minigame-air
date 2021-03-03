@@ -62,7 +62,7 @@ export default class Particle {
         this.visible = this.alpha >= 0.1 && this.size >= 5;
         // 对象回收
         if (this.y > window.innerHeight || this.visible === false || this.x < 0 || this.x > window.innerWidth) {
-            // databus.removeParticle(this)
+            databus.removeParticle(this)
         }
     }
     render (c) {

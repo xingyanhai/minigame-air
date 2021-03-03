@@ -32,7 +32,7 @@ export default class Main {
       this.touchHandler
     )
 
-    this.bg = new BackGround(ctx)
+    // this.bg = new BackGround(ctx)
     this.player = new Player(ctx)
     this.gameinfo = new GameInfo()
     this.music = new Music()
@@ -66,10 +66,11 @@ export default class Main {
    * 帧数取模定义成生成的频率
    */
   rocketGenerate() {
-    if (databus.frame % 100 === 0) {
+    if (databus.frame % 50 === 0) {
       if (databus.rockets.length < 10) {
         const rocket = databus.pool.getItemByClass('rocket', Rocket, this.player.x, this.player.y)
         rocket.init()
+        this.music.playJiu()
         databus.rockets.push(rocket);
       }
     }
@@ -104,7 +105,7 @@ export default class Main {
             // 分数增加量为总血量
             databus.score += enemy.totalBlood
           }
-          that.music.playExplosion()
+          // that.music.playExplosion()
 
           bullet.visible = false
 
@@ -154,6 +155,7 @@ export default class Main {
         // 爆炸
         databus.rockets[i].explode();
         databus.removeRocket(databus.rockets[i])
+        this.music.playPa()
       } else {
       }
     }
@@ -182,7 +184,7 @@ export default class Main {
   render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    this.bg.render(ctx)
+    // this.bg.render(ctx)
     databus.bullets
       .concat(databus.enemys)
       .concat(databus.supplys)
@@ -194,6 +196,7 @@ export default class Main {
     .forEach((item) => {
       item.render(ctx)
     })
+
     this.player.drawToCanvas(ctx)
 
     databus.animations.forEach((ani) => {
@@ -220,7 +223,7 @@ export default class Main {
   update() {
     if (databus.gameOver) return
 
-    this.bg.update()
+    // this.bg.update()
 
     databus.bullets
       .concat(databus.enemys)
@@ -230,6 +233,15 @@ export default class Main {
       .forEach((item) => {
         item.update()
       })
+    console.log(
+        `
+        子弹：${databus.bullets.length}
+        敌人：${databus.enemys.length}
+        补给：${databus.supplys.length}
+        火箭：${databus.rockets.length}
+        微粒：${databus.particles.length}
+        `
+    )
     // 生成敌人
     this.enemyGenerate()
     // 生成补给
@@ -243,7 +255,7 @@ export default class Main {
 
     if (databus.frame % 20 === 0) {
       this.player.shoot()
-      this.music.playShoot()
+      // this.music.playShoot()
     }
   }
 
