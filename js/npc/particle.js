@@ -1,3 +1,5 @@
+import DataBus from '../databus'
+const databus = new DataBus()
 // 爆炸粒子类
 export default class Particle {
     constructor (x, y) {
@@ -19,7 +21,25 @@ export default class Particle {
         this.fade = 0;
         this.color = 0;
 
-        this.isShow = true
+        this.visible = true
+    }
+    init () {
+        var angle = Math.random() * Math.PI * 2;
+
+        // emulate 3D effect by using cosine and put more particles in the middle
+        var speed = Math.cos(Math.random() * Math.PI / 2) * 15;
+
+        this.vel.x = Math.cos(angle) * speed;
+        this.vel.y = Math.sin(angle) * speed;
+
+        this.size = 10;
+
+        this.gravity = 0.2;
+        this.resistance = 0.92;
+        this.shrink = Math.random() * 0.05 + 0.93;
+
+        this.flick = true;
+        this.color = Math.floor(Math.random() * 360 / 10) * 10;
     }
     update () {
         // apply resistance 乘以阻力
@@ -39,7 +59,11 @@ export default class Particle {
         // fade out
         this.alpha -= this.fade;
 
-        this.visible = this.alpha >= 0.1 && this.size >= 1;
+        this.visible = this.alpha >= 0.1 && this.size >= 5;
+        // 对象回收
+        if (this.y > window.innerHeight || this.visible === false || this.x < 0 || this.x > window.innerWidth) {
+            // databus.removeParticle(this)
+        }
     }
     render (c) {
         if (!this.visible) {

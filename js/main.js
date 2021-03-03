@@ -68,13 +68,8 @@ export default class Main {
   rocketGenerate() {
     if (databus.frame % 100 === 0) {
       if (databus.rockets.length < 10) {
-        var rocket = new Rocket(this.player.x, this.player.y);
-        rocket.explosionColor = Math.floor(Math.random() * 360 / 10) * 10;
-        rocket.vel.y = Math.random() * -3 - 4; // -4~-
-        rocket.vel.x = Math.random() * 6 - 3;
-        rocket.size = 8;
-        rocket.shrink = 0.999;
-        rocket.gravity = 0.01;
+        const rocket = databus.pool.getItemByClass('rocket', Rocket, this.player.x, this.player.y)
+        rocket.init()
         databus.rockets.push(rocket);
       }
     }
@@ -234,9 +229,6 @@ export default class Main {
       .forEach((item) => {
         item.update()
       })
-    databus.particles = databus.particles.filter(e => {
-      return e.visible
-    })
     // 生成敌人
     this.enemyGenerate()
     // 生成补给
