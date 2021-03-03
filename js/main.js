@@ -1,6 +1,8 @@
 import Player from './player/index'
 import Enemy from './npc/enemy'
 import Supply from './npc/supply'
+import Rocket from './npc/rocket'
+import Particle from './npc/particle'
 import BackGround from './runtime/background'
 import GameInfo from './runtime/gameinfo'
 import Music from './runtime/music'
@@ -9,7 +11,8 @@ import Util from "./npc/util";
 
 const ctx = canvas.getContext('2d')
 const databus = new DataBus()
-
+const screenWidth = window.innerWidth
+const screenHeight = window.innerHeight
 /**
  * 游戏主函数
  */
@@ -58,6 +61,24 @@ export default class Main {
       databus.enemys.push(enemy)
     }
   }
+  /**
+   * 随着帧数变化的烟花火箭生成逻辑
+   * 帧数取模定义成生成的频率
+   */
+  rocketGenerate() {
+    if (databus.frame % 100 === 0) {
+      if (databus.rockets.length < 10) {
+        var rocket = new Rocket(this.player.x, this.player.y);
+        rocket.explosionColor = Math.floor(Math.random() * 360 / 10) * 10;
+        rocket.vel.y = Math.random() * -3 - 4; // -4~-
+        rocket.vel.x = Math.random() * 6 - 3;
+        rocket.size = 8;
+        rocket.shrink = 0.999;
+        rocket.gravity = 0.01;
+        databus.rockets.push(rocket);
+      }
+    }
+  }
 
   /**
    * 随着帧数变化的补给生成逻辑
@@ -97,6 +118,7 @@ export default class Main {
         }
       }
     })
+
     // 我方飞机是否碰到敌机
     for (let i = 0, il = databus.enemys.length; i < il; i++) {
       const enemy = databus.enemys[i]
@@ -117,6 +139,29 @@ export default class Main {
         break
       }
     }
+
+    // 判断是否烟火火箭爆炸
+    for (var i = 0; i < databus.rockets.length; i++) {
+
+      // calculate distance with Pythagoras
+      // var distance = Math.sqrt(Math.pow(mousePos.x - rockets[i].pos.x, 2) + Math.pow(mousePos.y - rockets[i].pos.y, 2));
+
+      // random chance of 1% if rockets is above the middle
+      var randomChance = databus.rockets[i].y < screenHeight * 2 / 3 ? Math.random() * 100 <= 1 : false;
+
+      /* Explosion rules
+       - 80% of screen
+       - going down
+       - close to the mouse
+       - 1% chance of random explosion
+       */
+      if (databus.rockets[i].y < screenHeight / 5 || databus.rockets[i].vel.y >= 0 ||  randomChance) {
+        // 爆炸
+        databus.rockets[i].explode();
+      } else {
+      }
+    }
+
   }
 
   // 游戏结束后的触摸事件处理逻辑
@@ -148,7 +193,11 @@ export default class Main {
       .forEach((item) => {
         item.drawToCanvas(ctx)
       })
-
+    databus.rockets
+    .concat(databus.particles)
+    .forEach((item) => {
+      item.render(ctx)
+    })
     this.player.drawToCanvas(ctx)
 
     databus.animations.forEach((ani) => {
@@ -180,13 +229,22 @@ export default class Main {
     databus.bullets
       .concat(databus.enemys)
       .concat(databus.supplys)
+      .concat(databus.rockets)
+      .concat(databus.particles)
       .forEach((item) => {
         item.update()
       })
+    databus.particles = databus.particles.filter(e => {
+      return e.visible
+    })
     // 生成敌人
     this.enemyGenerate()
     // 生成补给
     this.supplyGenerate()
+
+    // 生成烟花火箭
+    this.rocketGenerate()
+
     // 全局碰撞检测
     this.collisionDetection()
 
