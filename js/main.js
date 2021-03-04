@@ -81,7 +81,7 @@ export default class Main {
    * 帧数取模定义成生成的频率
    */
   supplyGenerate() {
-    if (databus.frame % 5000 === 0) {
+    if (databus.frame % 500 === 0) {
       const supply = databus.pool.getItemByClass('supply', Supply)
       supply.init(2)
       databus.supplys.push(supply)
@@ -233,15 +233,15 @@ export default class Main {
       .forEach((item) => {
         item.update()
       })
-    console.log(
-        `
-        子弹：${databus.bullets.length}
-        敌人：${databus.enemys.length}
-        补给：${databus.supplys.length}
-        火箭：${databus.rockets.length}
-        微粒：${databus.particles.length}
-        `
-    )
+    // console.log(
+    //     `
+    //     子弹：${databus.bullets.length}
+    //     敌人：${databus.enemys.length}
+    //     补给：${databus.supplys.length}
+    //     火箭：${databus.rockets.length}
+    //     微粒：${databus.particles.length}
+    //     `
+    // )
     // 生成敌人
     this.enemyGenerate()
     // 生成补给

@@ -19,11 +19,11 @@ export default class Music {
     this.boomAudio = new Audio()
     this.boomAudio.src = 'audio/boom.mp3'
 
-    this.jiuAudio = new Audio()
-    this.jiuAudio.src = 'audio/jiu.mp3'
+    this.jiuAudioList = [new Audio()]
+    this.jiuAudioList[0].src = 'audio/jiu.mp3'
 
-    this.paAudio = new Audio()
-    this.paAudio.src = 'audio/pa.mp3'
+    this.paAudioList = [new Audio()]
+    this.paAudioList[0].src = 'audio/pa.mp3'
 
     this.playBgm()
   }
@@ -43,12 +43,28 @@ export default class Music {
   }
 
   playJiu() {
-    this.jiuAudio.currentTime = 0
-    this.jiuAudio.play()
+    let jiuAudio = this.jiuAudioList.find(e => {
+      return e.paused === true
+    })
+    if (!jiuAudio) {
+      jiuAudio = new Audio()
+      jiuAudio.src = 'audio/jiu.mp3'
+      this.jiuAudioList.push(jiuAudio)
+    }
+    jiuAudio.currentTime = 0
+    jiuAudio.play()
   }
 
   playPa() {
-    this.paAudio.currentTime = 0
-    this.paAudio.play()
+    let paAudio = this.paAudioList.find(e => {
+      return e.paused === true
+    })
+    if (!paAudio) {
+      paAudio = new Audio()
+      paAudio.src = 'audio/pa.mp3'
+      this.paAudioList.push(paAudio)
+    }
+    paAudio.currentTime = 0
+    paAudio.play()
   }
 }
