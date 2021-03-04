@@ -22,8 +22,27 @@ export default class Main {
     this.aniId = 0
 
     this.restart()
+    this.initEvent()
   }
+  // 绑定事件
+  initEvent () {
+    // 绑定暂停，开始事件
+    this.startOrPauseEvent = ((e) => {
+      e.preventDefault()
 
+      const x = e.touches[0].clientX
+      const y = e.touches[0].clientY
+
+      const area = this.gameinfo.pauseStartBtnArea
+
+      if (x >= area.startX
+          && x <= area.endX
+          && y >= area.startY
+          && y <= area.endY) this.startOrPause()
+    })
+    canvas.addEventListener('touchstart', this.startOrPauseEvent)
+  }
+  // 重新开始
   restart() {
     databus.reset()
 
@@ -48,7 +67,10 @@ export default class Main {
       canvas
     )
   }
-
+  // 开始/暂停
+  startOrPause () {
+    databus.isPlaying = !databus.isPlaying
+  }
   /**
    * 随着帧数变化的敌机生成逻辑
    * 帧数取模定义成生成的频率
@@ -207,6 +229,7 @@ export default class Main {
 
     this.gameinfo.renderGameScore(ctx, databus.score)
 
+
     // 游戏结束停止帧循环
     if (databus.gameOver) {
       this.gameinfo.renderGameOver(ctx, databus.score)
@@ -216,12 +239,23 @@ export default class Main {
         this.touchHandler = this.touchEventHandler.bind(this)
         canvas.addEventListener('touchstart', this.touchHandler)
       }
+      canvas.removeEventListener(
+          'touchstart',
+          this.startOrPauseEvent
+      )
+    } else {
+      this.gameinfo.renderGameBtns(ctx, databus)
     }
   }
 
   // 游戏逻辑更新主函数
   update() {
     if (databus.gameOver) return
+    if (databus.isPlaying) {
+      databus.frame++
+    } else { // 游戏暂停
+      return
+    }
 
     // this.bg.update()
 
@@ -261,7 +295,6 @@ export default class Main {
 
   // 实现游戏帧循环
   loop() {
-    databus.frame++
 
     this.update()
     this.render()

@@ -61,4 +61,21 @@ export default class GameInfo {
       endY: screenHeight / 2 - 100 + 255
     }
   }
+  // 按钮
+  renderGameBtns(ctx, databus) {
+    ctx.fillStyle = '#ffffff'
+    ctx.font = '20px Arial'
+
+    ctx.fillText(
+        databus.isPlaying?'暂停':'开始',
+        40,
+        30
+    )
+    this.pauseStartBtnArea = {
+      startX: 40,
+      startY: 30,
+      endX: 140,
+      endY: 130
+    }
+  }
 }

@@ -26,6 +26,7 @@ export default class DataBus {
     this.particles = []
     this.animations = []
     this.gameOver = false
+    this.isPlaying = true
   }
 
   /**
