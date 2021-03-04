@@ -162,7 +162,7 @@ export default class Main {
       if (databus.rockets[i].y < screenHeight / 5 || databus.rockets[i].vel.y >= 0 ||  randomChance) {
         // 爆炸
         databus.rockets[i].explode();
-        databus.removeRocket(databus.rockets[i])
+        databus.rockets[i].visible = false
         this.music.playPa()
       } else {
       }

@@ -62,7 +62,7 @@ export default class Rocket {
         // fade out
         this.alpha -= this.fade;
 
-        this.visible = this.alpha >= 0.1 && this.size >= 1;
+        this.visible = this.visible && this.alpha >= 0.1 && this.size >= 1;
 
         // 对象回收
         if (this.y > window.innerHeight || this.visible === false || this.x < 0 || this.x > window.innerWidth) {
