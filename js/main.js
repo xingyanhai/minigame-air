@@ -159,12 +159,32 @@ export default class Main {
        - close to the mouse
        - 1% chance of random explosion
        */
-      if (databus.rockets[i].y < screenHeight / 5 || databus.rockets[i].vel.y >= 0 ||  randomChance) {
+      let rocket = databus.rockets[i]
+      if (rocket.y < screenHeight / 5 || rocket.vel.y >= 0 ||  randomChance) {
         // 爆炸
-        databus.rockets[i].explode();
-        databus.rockets[i].visible = false
-        this.music.playPa()
+        // rocket.explode();
+        // rocket.visible = false
+        // this.music.playPa()
       } else {
+        for (let j = 0, jl = databus.enemys.length; j < jl; j++) {
+          const enemy = databus.enemys[j]
+
+          if (enemy.isCollideWith(rocket)) {
+            // 播放爆炸动画
+            enemy.playAnimation()
+            enemy.currentBlood --
+            if (enemy.currentBlood <= 0) {
+              enemy.visible = false
+              // 分数增加量为总血量
+              databus.score += enemy.totalBlood
+            }
+            // 爆炸
+            rocket.explode();
+            rocket.visible = false
+            this.music.playPa()
+            break
+          }
+        }
       }
     }
 
@@ -253,15 +273,15 @@ export default class Main {
       .forEach((item) => {
         item.update()
       })
-    // console.log(
-    //     `
-    //     子弹：${databus.bullets.length}
-    //     敌人：${databus.enemys.length}
-    //     补给：${databus.supplys.length}
-    //     火箭：${databus.rockets.length}
-    //     微粒：${databus.particles.length}
-    //     `
-    // )
+    console.log(
+        `
+        子弹：${databus.bullets.length}
+        敌人：${databus.enemys.length}
+        补给：${databus.supplys.length}
+        火箭：${databus.rockets.length}
+        微粒：${databus.particles.length}
+        `
+    )
     // 生成敌人
     this.enemyGenerate()
     // 生成补给
@@ -271,14 +291,19 @@ export default class Main {
     // 全局碰撞检测
     this.collisionDetection()
 
-    if (databus.frame % 20 === 0) {
+    if (databus.frame % 30 === 0) {
       // 发射子弹
-      this.player.shoot()
+      // this.player.shoot()
       // this.music.playShoot()
       setTimeout(() => {
-        // 发射烟花
-        this.player.rocketShoot()
-        this.music.playJiu()
+        for(let i = 0; i< this.player.rocketCount; i++) {
+          setTimeout(() => {
+            // 发射烟花
+            this.player.rocketShoot()
+            this.music.playJiu()
+          }, 100 * i)
+        }
+
       }, 100)
     }
   }

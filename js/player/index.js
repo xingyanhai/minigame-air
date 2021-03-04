@@ -9,8 +9,8 @@ const screenHeight = window.innerHeight
 
 // 玩家相关常量设置
 const PLAYER_IMG_SRC = `${Util.imgSrc}/hero.png`
-const PLAYER_WIDTH = 50
-const PLAYER_HEIGHT = 30
+const PLAYER_WIDTH = 90
+const PLAYER_HEIGHT = 60
 
 const databus = new DataBus()
 
@@ -27,7 +27,7 @@ export default class Player extends Sprite {
 
     this.bullets = []
     // 子弹数量
-    this.bulletCount = 3
+    this.bulletCount = 1
     // 子弹间隔
     this.bulletSpace = 2
     // 烟花子弹数量
@@ -140,13 +140,9 @@ export default class Player extends Sprite {
    * 射击时机由外部决定
    */
   rocketShoot() {
-    for(let i = 0; i< this.rocketCount; i++) {
-      setTimeout(() => {
-        const rocket = databus.pool.getItemByClass('rocket', Rocket, this.x + this.width / 2 - Rocket.originalSize / 2, this.y)
-        rocket.init()
-        databus.rockets.push(rocket);
-      }, 50 * i)
-    }
+    const rocket = databus.pool.getItemByClass('rocket', Rocket, this.x + this.width / 2, this.y)
+    rocket.init()
+    databus.rockets.push(rocket);
   }
 
 }

@@ -36,8 +36,8 @@ export default class Sprite {
    * @param{Sprite} sp: Sptite的实例
    */
   isCollideWith(sp) {
-    const spX = sp.x + sp.width / 2
-    const spY = sp.y + sp.height / 2
+    const spX = sp.x + (sp.width || sp.size) / 2
+    const spY = sp.y + (sp.height || sp.size) / 2
 
     if (!this.visible || !sp.visible) return false
 

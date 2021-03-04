@@ -28,11 +28,11 @@ export default class Rocket {
     static originalSize = 8
     init () {
         this.explosionColor = Math.floor(Math.random() * 360 / 10) * 10;
-        this.vel.y = Math.random() * -3 - 4; // -4  ~  -7
+        this.vel.y = Math.random() * -3 - 10; // -4  ~  -7
         this.vel.x = Math.random() * 6 - 1; // -3 ~  3
         this.size = Rocket.originalSize;
         this.shrink = 0.999;
-        this.gravity = 0.01;
+        this.gravity = 0;
     }
     // 爆炸
     explode () {
@@ -53,7 +53,7 @@ export default class Rocket {
         this.vel.y += this.gravity;
 
         // update position based on speed
-        // this.x += this.vel.x;
+        this.x += this.vel.x;
         this.y += this.vel.y;
 
         // shrink 乘以收缩

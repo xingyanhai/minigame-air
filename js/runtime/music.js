@@ -25,7 +25,7 @@ export default class Music {
     this.paAudioList = [new Audio()]
     this.paAudioList[0].src = 'audio/pa.mp3'
 
-    this.playBgm()
+    // this.playBgm()
   }
 
   playBgm() {
