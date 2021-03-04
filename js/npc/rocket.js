@@ -25,11 +25,12 @@ export default class Rocket {
         this.visible = true
         this.explosionColor = 0;
     }
+    static originalSize = 8
     init () {
         this.explosionColor = Math.floor(Math.random() * 360 / 10) * 10;
         this.vel.y = Math.random() * -3 - 4; // -4  ~  -7
         this.vel.x = Math.random() * 6 - 1; // -3 ~  3
-        this.size = 8;
+        this.size = Rocket.originalSize;
         this.shrink = 0.999;
         this.gravity = 0.01;
     }

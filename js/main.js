@@ -83,20 +83,6 @@ export default class Main {
       databus.enemys.push(enemy)
     }
   }
-  /**
-   * 随着帧数变化的烟花火箭生成逻辑
-   * 帧数取模定义成生成的频率
-   */
-  rocketGenerate() {
-    if (databus.frame % 50 === 0) {
-      if (databus.rockets.length < 10) {
-        const rocket = databus.pool.getItemByClass('rocket', Rocket, this.player.x, this.player.y)
-        rocket.init()
-        this.music.playJiu()
-        databus.rockets.push(rocket);
-      }
-    }
-  }
 
   /**
    * 随着帧数变化的补给生成逻辑
@@ -152,7 +138,7 @@ export default class Main {
       const supply = databus.supplys[i]
 
       if (this.player.isCollideWith(supply)) {
-        this.player.bulletCount ++
+        this.player.rocketCount ++
         supply.visible = false
         break
       }
@@ -281,15 +267,19 @@ export default class Main {
     // 生成补给
     this.supplyGenerate()
 
-    // 生成烟花火箭
-    this.rocketGenerate()
 
     // 全局碰撞检测
     this.collisionDetection()
 
     if (databus.frame % 20 === 0) {
+      // 发射子弹
       this.player.shoot()
       // this.music.playShoot()
+      setTimeout(() => {
+        // 发射烟花
+        this.player.rocketShoot()
+        this.music.playJiu()
+      }, 100)
     }
   }
 

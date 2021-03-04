@@ -2,6 +2,7 @@ import Sprite from '../base/sprite'
 import Bullet from './bullet'
 import DataBus from '../databus'
 import Util from "../npc/util";
+import Rocket from '../npc/rocket'
 
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
@@ -29,7 +30,8 @@ export default class Player extends Sprite {
     this.bulletCount = 3
     // 子弹间隔
     this.bulletSpace = 2
-
+    // 烟花子弹数量
+    this.rocketCount = 3
     // 初始化事件监听
     this.initEvent()
   }
@@ -133,4 +135,18 @@ export default class Player extends Sprite {
       databus.bullets.push(bullet)
     }
   }
+  /**
+   * 玩家射击烟花操作
+   * 射击时机由外部决定
+   */
+  rocketShoot() {
+    for(let i = 0; i< this.rocketCount; i++) {
+      setTimeout(() => {
+        const rocket = databus.pool.getItemByClass('rocket', Rocket, this.x + this.width / 2 - Rocket.originalSize / 2, this.y)
+        rocket.init()
+        databus.rockets.push(rocket);
+      }, 50 * i)
+    }
+  }
+
 }
